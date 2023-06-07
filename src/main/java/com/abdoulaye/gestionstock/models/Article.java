@@ -40,5 +40,7 @@ public class Article extends AbstratEntity {
     private Categorie categorie;
 
     @OneToMany(mappedBy = "article")
-    private List<Article> articleList;
+    private List<LigneCommandeClient> ligneCommandeClients;
+    @OneToMany(mappedBy = "article")
+    private List<LigneCommandeFournisseur> ligneCommandeFournisseurs;
 }
