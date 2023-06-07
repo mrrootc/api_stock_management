@@ -1,16 +1,21 @@
 package com.abdoulaye.gestionstock.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
+@Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "role")
 public class Role extends AbstratEntity{
-    private String nom;
+    @Column(name = "nom_role")
+    private String nomRole;
+    @ManyToOne()
+    @JoinColumn(name = "id_utilisateur")
+    private Utilisateur utilisateur;
 }

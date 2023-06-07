@@ -2,13 +2,16 @@ package com.abdoulaye.gestionstock.models;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.List;
 
 @Data
+@Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +25,7 @@ public class Article extends AbstratEntity {
     private String designation;
 
     @Column(name = "prix")
-    private int prixUnitaire;
+    private BigDecimal prixUnitaire;
     @Column(name = "description")
     private String description;
 
@@ -39,12 +42,4 @@ public class Article extends AbstratEntity {
     @JoinColumn(name = "idcategorie")
     private Categorie categorie;
 
-    @OneToMany(mappedBy = "article")
-    private List<LigneCommandeClient> ligneCommandeClients;
-    @OneToMany(mappedBy = "article")
-    private List<LigneCommandeFournisseur> ligneCommandeFournisseurs;
-    @OneToMany(mappedBy = "article")
-    private List<MouvementStock> mouvementStocks;
-    @OneToMany(mappedBy = "article")
-    private List<LigneVente> ligneVentes;
 }

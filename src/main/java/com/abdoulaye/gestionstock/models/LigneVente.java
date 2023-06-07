@@ -1,16 +1,15 @@
 package com.abdoulaye.gestionstock.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
 @Data
+@Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,11 +17,12 @@ import java.math.BigDecimal;
 public class LigneVente extends AbstratEntity{
 
     @ManyToOne()
-    @JoinColumn(name = "id_article")
-    private Article article;
-    @ManyToOne()
     @JoinColumn(name = "id_vente")
     private Vente vente;
 
+    @Column(name = "quantite")
     private BigDecimal quantite;
+
+    @Column(name = "prixunitaire")
+    private BigDecimal prixUnitaire;
 }

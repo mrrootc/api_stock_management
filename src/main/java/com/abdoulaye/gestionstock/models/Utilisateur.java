@@ -1,14 +1,17 @@
 package com.abdoulaye.gestionstock.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Embedded;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+import jdk.jshell.execution.Util;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.Instant;
+import java.util.List;
+
 @Data
+@Builder
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,6 +22,8 @@ public class Utilisateur extends AbstratEntity{
     private String nom;
     @Column(name = "prenom")
     private String prenom;
+    @Column(name = "date_naissance")
+    private Instant dateDeNaissance;
     @Column(name = "email")
     private String email;
     @Column(name = "phone")
@@ -27,4 +32,11 @@ public class Utilisateur extends AbstratEntity{
     private String image;
     @Embedded
     private Adresse adresse;
+    @Column(name = "motdepasse")
+    private String motDePasse;
+    @OneToMany(mappedBy = "utilisateur")
+    private List<Role> roles;
+    @ManyToOne()
+    @JoinColumn(name = "id_entreprise")
+    private Entreprise entreprise;
 }
