@@ -25,6 +25,6 @@ public class Fournisseur extends AbstratEntity{
     private String image;
     @Embedded //cette annotation veut dire que Adresse est un champ composé
     private Adresse adresse;
-    @OneToMany(mappedBy = "fourisseur")
+    @OneToMany(mappedBy = "fournisseur")
     private List<CommandeFournisseur> commandeFournisseurs;
 }

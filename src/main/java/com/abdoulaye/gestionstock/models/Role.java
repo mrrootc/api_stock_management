@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Table(name = "role")
 public class Role extends AbstratEntity{
+    private String nom;
 }
