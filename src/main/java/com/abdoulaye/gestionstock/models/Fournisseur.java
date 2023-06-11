@@ -21,7 +21,7 @@ public class Fournisseur extends AbstratEntity{
     @Column(name = "email")
     private String email;
     @Column(name = "phone")
-    private Integer phone;
+    private String phone;
     @Column(name = "image")
     private String image;
     @Embedded //cette annotation veut dire que Adresse est un champ composé

@@ -15,7 +15,7 @@ public class CategorieDto {
     private String description;
     @JsonIgnore
     private List<ArticleDto> article;
-    public CategorieDto fromEntity(Categorie categorie){
+    public static CategorieDto fromEntity(Categorie categorie){
         if(categorie == null){
             return null;
             //TODO trow an exception
@@ -27,7 +27,7 @@ public class CategorieDto {
                 .build();
     }
 
-    public Categorie toEntity(CategorieDto categorieDto){
+    public static Categorie toEntity(CategorieDto categorieDto){
         if(categorieDto == null){
             return null;
 
