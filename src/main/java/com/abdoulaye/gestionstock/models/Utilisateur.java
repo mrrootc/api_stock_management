@@ -1,5 +1,6 @@
 package com.abdoulaye.gestionstock.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jdk.jshell.execution.Util;
 import lombok.AllArgsConstructor;
@@ -19,23 +20,33 @@ public class Utilisateur extends AbstratEntity{
 
     @Column(name = "nom")
     private String nom;
+
     @Column(name = "prenom")
     private String prenom;
-    @Column(name = "date_naissance")
+
+    @Column(name = "datenaissance")
     private Instant dateDeNaissance;
+
     @Column(name = "email")
     private String email;
+
     @Column(name = "phone")
     private Integer phone;
+
     @Column(name = "image")
     private String image;
+
     @Embedded
     private Adresse adresse;
+
     @Column(name = "motdepasse")
     private String motDePasse;
-    @OneToMany(mappedBy = "utilisateur")
+
+    @OneToMany( fetch = FetchType.EAGER,mappedBy = "utilisateur")
+    @JsonIgnore
     private List<Role> roles;
+
     @ManyToOne()
-    @JoinColumn(name = "id_entreprise")
+    @JoinColumn(name = "identreprise")
     private Entreprise entreprise;
 }

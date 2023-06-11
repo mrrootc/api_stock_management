@@ -17,10 +17,19 @@ import java.util.List;
 public class CommandeClient extends AbstratEntity{
     @Column(name = "code")
     private String code;
-    @Column(name = "date_commande")
+
+    @Column(name = "datecommande")
     private Instant dateCommande;
+
+    @Column(name = "etatcommande")
+    @Enumerated(EnumType.STRING)
+    private EtatCommande etatCommande;
+
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
+
     @ManyToOne()
-    @JoinColumn(name = "id_client")
+    @JoinColumn(name = "idclient")
     private Client client;
 
     @OneToMany(mappedBy = "commandeClient")

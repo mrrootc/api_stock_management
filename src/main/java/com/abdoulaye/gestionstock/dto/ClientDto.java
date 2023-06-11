@@ -1,5 +1,6 @@
 package com.abdoulaye.gestionstock.dto;
 
+import com.abdoulaye.gestionstock.models.Adresse;
 import com.abdoulaye.gestionstock.models.Client;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
@@ -17,6 +18,7 @@ public class ClientDto {
     private String email;
     private Integer phone;
     private String image;
+    private Integer idEntreprise;
     @JsonIgnore
     private List<CommandeClientDto> commandeClients;
 
@@ -32,6 +34,8 @@ public class ClientDto {
                 .email(client.getEmail())
                 .phone(client.getPhone())
                 .image(client.getImage())
+                .adresse(AdresseDto.fromEntity(client.getAdresse()))
+                .idEntreprise(client.getIdEntreprise())
                 .build();
     }
 
@@ -47,6 +51,8 @@ public class ClientDto {
         client.setImage(clientDto.getImage());
         client.setEmail(clientDto.getEmail());
         client.setPhone(clientDto.getPhone());
+        client.setAdresse(AdresseDto.toEntity(clientDto.getAdresse()));
+        client.setIdEntreprise(clientDto.getIdEntreprise());
 
         return client;
     }

@@ -17,10 +17,18 @@ import java.util.List;
 public class CommandeFournisseur extends AbstratEntity{
     @Column(name = "code")
     private String code;
-    @Column(name = "date_commande")
+    @Column(name = "datecommande")
     private Instant dateCommande;
+
+    @Column(name = "etatcommande")
+    @Enumerated(EnumType.STRING)
+    private EtatCommande etatCommande;
+
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
+
     @ManyToOne()
-    @JoinColumn(name = "id_fournisseur")
+    @JoinColumn(name = "idfournisseur")
     private Fournisseur fournisseur;
 
     @OneToMany(mappedBy = "commandeFournisseur")

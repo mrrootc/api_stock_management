@@ -16,13 +16,12 @@ import java.time.Instant;
 public class ArticleDto {
     private int id;
     private int codeArticle;
-    private String designation;
     private BigDecimal prixUnitaire;
     private String description;
     private String image;
     private Instant dateFab;
     private Instant dateExp;
-    private CategorieDto categorieDto;
+    private CategorieDto categorie;
 
     public static ArticleDto fromEntity(Article article){
         if(article == null){
@@ -37,6 +36,7 @@ public class ArticleDto {
                 .prixUnitaire(article.getPrixUnitaire())
                 .dateFab(article.getDateFab())
                 .dateExp(article.getDateExp())
+                .categorie(CategorieDto.fromEntity(article.getCategorie()))
                 .build();
     }
 
@@ -53,6 +53,7 @@ public class ArticleDto {
         article.setImage(articleDto.getImage());
         article.setDateFab(articleDto.getDateFab());
         article.setDateExp(articleDto.getDateExp());
+        article.setCategorie(CategorieDto.toEntity(articleDto.getCategorie()));
         return article;
     }
 }

@@ -21,9 +21,16 @@ public class Vente extends AbstratEntity{
 
     @Column(name = "code")
     private String code;
+
     @Column(name = "datevente")
     private Instant dateVente;
+
     @Column(name = "commentaire")
     private String commentaire;
 
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
+
+    @OneToMany(mappedBy = "vente")
+    private List<LigneVente> ligneVentes;
 }

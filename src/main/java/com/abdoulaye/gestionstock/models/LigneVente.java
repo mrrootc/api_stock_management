@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 public class LigneVente extends AbstratEntity{
 
     @ManyToOne()
-    @JoinColumn(name = "id_vente")
+    @JoinColumn(name = "idvente")
     private Vente vente;
 
     @Column(name = "quantite")
@@ -24,4 +24,11 @@ public class LigneVente extends AbstratEntity{
 
     @Column(name = "prixunitaire")
     private BigDecimal prixUnitaire;
+
+    @ManyToOne
+    @JoinColumn(name = "idarticle")
+    private Article article;
+
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
 }

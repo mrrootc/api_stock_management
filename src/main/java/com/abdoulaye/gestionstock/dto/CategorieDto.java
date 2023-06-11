@@ -11,8 +11,9 @@ import java.util.List;
 @Data
 public class CategorieDto {
     private int id;
-    private int codeCategorie;
+    private String codeCategorie;
     private String description;
+    private Integer idEntreprise;
     @JsonIgnore
     private List<ArticleDto> article;
     public static CategorieDto fromEntity(Categorie categorie){
@@ -24,6 +25,7 @@ public class CategorieDto {
                 .id(categorie.getId())
                 .codeCategorie(categorie.getCodeCategorie())
                 .description(categorie.getDescription())
+                .idEntreprise(categorie.getIdEntreprise())
                 .build();
     }
 
@@ -36,6 +38,7 @@ public class CategorieDto {
         categorie.setId(categorieDto.getId());
         categorie.setCodeCategorie(categorieDto.getCodeCategorie());
         categorie.setDescription(categorieDto.getDescription());
+        categorie.setIdEntreprise(categorieDto.getIdEntreprise());
 
         return categorie;
 

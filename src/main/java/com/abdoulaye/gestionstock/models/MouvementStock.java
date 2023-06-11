@@ -16,13 +16,23 @@ import java.time.Instant;
 @Table(name = "mouvementstock")
 public class MouvementStock extends AbstratEntity{
     @ManyToOne()
-    @JoinColumn(name = "id_article")
+    @JoinColumn(name = "idarticle")
     private Article article;
+
     @Column(name = "quantite")
     private BigDecimal quantite;
 
     @Column(name = "datemvt")
     private Instant dateMvt;
+
     @Column(name = "type_mvt")
+    @Enumerated(EnumType.STRING)
     private TypeMouvementStock typeMvt;
+
+    @Column(name = "sourcemvt")
+    @Enumerated(EnumType.STRING)
+    private SourceMouvementStock sourceMvt;
+
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
 }

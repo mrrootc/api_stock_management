@@ -26,6 +26,9 @@ public class Client extends AbstratEntity{
     private Integer phone;
     @Column(name = "image")
     private String image;
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
+
     @OneToMany(mappedBy = "client")
     private List<CommandeClient> commandeClients;
 }

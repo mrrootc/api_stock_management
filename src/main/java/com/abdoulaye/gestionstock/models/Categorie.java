@@ -19,11 +19,17 @@ import java.util.List;
 public class Categorie extends AbstratEntity{
 
     @Column(name = "codecategorie")
-    private int codeCategorie;
+    private String codeCategorie;
 
     @Column(name = "description")
     private String description;
 
+    @Column(name = "identreprise")
+    private Integer idEntreprise;
+
     @OneToMany(mappedBy = "categorie")
     private List<Article> article;
+
+
+
 }

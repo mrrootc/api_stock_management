@@ -20,9 +20,6 @@ public class Article extends AbstratEntity {
     @Column(name = "codearticle", nullable = false)
     private int codeArticle;
 
-    @Column(name = "designation")
-    private String designation;
-
     @Column(name = "prix")
     private BigDecimal prixUnitaire;
     @Column(name = "description")
@@ -40,5 +37,17 @@ public class Article extends AbstratEntity {
     @ManyToOne()
     @JoinColumn(name = "idcategorie")
     private Categorie categorie;
+
+    @OneToMany(mappedBy = "article")
+    private List<LigneVente> ligneVentes;
+
+    @OneToMany(mappedBy = "article")
+    private List<LigneCommandeClient> ligneCommandeClients;
+
+    @OneToMany(mappedBy = "article")
+    private List<LigneCommandeFournisseur> ligneCommandeFournisseurs;
+
+    @OneToMany(mappedBy = "article")
+    private List<MouvementStock> mvtStks;
 
 }
