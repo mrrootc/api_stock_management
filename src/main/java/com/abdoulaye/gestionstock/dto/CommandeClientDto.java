@@ -2,7 +2,9 @@ package com.abdoulaye.gestionstock.dto;
 
 
 
+import com.abdoulaye.gestionstock.models.Client;
 import com.abdoulaye.gestionstock.models.CommandeClient;
+import com.abdoulaye.gestionstock.models.EtatCommande;
 import lombok.Builder;
 import lombok.Data;
 
@@ -16,6 +18,8 @@ public class CommandeClientDto {
     private String code;
     private Instant dateCommande;
     private ClientDto client;
+    private EtatCommande etatCommande;
+    private Integer idEntreprise;
     private List<LigneCommandeClientDto> ligneCommandeClients;
 
 
@@ -28,6 +32,9 @@ public class CommandeClientDto {
                 .id(commandeClient.getId())
                 .code(commandeClient.getCode())
                 .dateCommande(commandeClient.getDateCommande())
+                .etatCommande(commandeClient.getEtatCommande())
+                .client(ClientDto.fromEntity(commandeClient.getClient()))
+                .idEntreprise(commandeClient.getIdEntreprise())
                 .build();
     }
 
@@ -40,6 +47,10 @@ public class CommandeClientDto {
         commandeClient.setId(commandeClientDto.getId());
         commandeClient.setCode(commandeClientDto.getCode());
         commandeClient.setDateCommande(commandeClientDto.getDateCommande());
+        commandeClient.setIdEntreprise(commandeClientDto.getIdEntreprise());
+        commandeClient.setClient(ClientDto.toEntity(commandeClientDto.getClient()));
+        commandeClient.setEtatCommande(commandeClient.getEtatCommande());
+
 
         return commandeClient;
     }

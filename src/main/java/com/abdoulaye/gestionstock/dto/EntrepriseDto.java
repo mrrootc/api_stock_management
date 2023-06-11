@@ -11,11 +11,11 @@ public class EntrepriseDto {
     private int id;
     private String nom;
     private String description;
-    private AdresseDto adresseDto;
+    private AdresseDto adresse;
     private String codeFiscal;
     private String image;
     private String email;
-
+    private String steWeb;
     private String phone;
 
     private List<UtilisateurDto> utilisateurList;
@@ -33,6 +33,8 @@ public class EntrepriseDto {
                 .image(entreprise.getImage())
                 .email(entreprise.getImage())
                 .phone(entreprise.getPhone())
+                .adresse(AdresseDto.fromEntity(entreprise.getAdresse()))
+                .steWeb(entreprise.getSteWeb())
                 .build();
     }
 
@@ -49,6 +51,8 @@ public class EntrepriseDto {
         entreprise.setEmail(entrepriseDto.getEmail());
         entreprise.setPhone(entrepriseDto.getPhone());
         entreprise.setImage(entrepriseDto.getImage());
+        entreprise.setAdresse(AdresseDto.toEntity(entrepriseDto.getAdresse()));
+        entreprise.setSteWeb(entreprise.getSteWeb());
 
         return entreprise;
     }

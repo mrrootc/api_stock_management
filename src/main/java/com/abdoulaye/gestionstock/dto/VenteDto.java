@@ -15,8 +15,10 @@ public class VenteDto   {
     private String code;
     private Instant dateVente;
     private String commentaire;
+    private Integer idEntreprise;
 
-    public VenteDto fromEntity(Vente vente){
+    private List<LigneVenteDto> ligneVentes;
+    public static VenteDto fromEntity(Vente vente){
         if (vente.equals(null)){
             return null;
         }
@@ -26,10 +28,11 @@ public class VenteDto   {
                 .code(vente.getCode())
                 .dateVente(vente.getDateVente())
                 .commentaire(vente.getCommentaire())
+                .idEntreprise(vente.getIdEntreprise())
                 .build();
     }
 
-    public Vente toEntity(VenteDto venteDto){
+    public static Vente toEntity(VenteDto venteDto){
         if(venteDto == null){
             return null;
         }
@@ -39,6 +42,7 @@ public class VenteDto   {
         vente.setCode(vente.getCode());
         vente.setDateVente(venteDto.getDateVente());
         vente.setCommentaire(venteDto.getCommentaire());
+        vente.setIdEntreprise(venteDto.getIdEntreprise());
 
         return vente;
     }
