@@ -16,7 +16,7 @@ public class ClientDto {
     private String nom;
     private String prenom;
     private String email;
-    private Integer phone;
+    private String phone;
     private String image;
     private Integer idEntreprise;
     @JsonIgnore

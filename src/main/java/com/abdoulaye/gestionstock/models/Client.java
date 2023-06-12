@@ -23,7 +23,7 @@ public class Client extends AbstratEntity{
     @Column(name = "email")
     private String email;
     @Column(name = "phone")
-    private Integer phone;
+    private String phone;
     @Column(name = "image")
     private String image;
     @Column(name = "identreprise")

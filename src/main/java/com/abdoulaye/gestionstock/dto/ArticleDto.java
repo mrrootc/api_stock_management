@@ -15,7 +15,7 @@ import java.time.Instant;
 @Data
 public class ArticleDto {
     private int id;
-    private int codeArticle;
+    private String codeArticle;
     private BigDecimal prixUnitaire;
     private String description;
     private String image;

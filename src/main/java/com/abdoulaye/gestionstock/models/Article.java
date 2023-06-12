@@ -18,7 +18,7 @@ import java.util.List;
 public class Article extends AbstratEntity {
 
     @Column(name = "codearticle", nullable = false)
-    private int codeArticle;
+    private String codeArticle;
 
     @Column(name = "prix")
     private BigDecimal prixUnitaire;
