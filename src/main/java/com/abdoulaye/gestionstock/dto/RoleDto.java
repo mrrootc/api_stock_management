@@ -7,7 +7,7 @@ import lombok.Data;
 @Builder
 @Data
 public class RoleDto {
-    private int id;
+    private Long id;
     private String nomRole;
     private UtilisateurDto utilisateur;
 

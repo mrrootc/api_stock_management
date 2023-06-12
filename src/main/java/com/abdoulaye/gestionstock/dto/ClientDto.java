@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @Data
 public class ClientDto {
-    private int id;
+    private Long id;
     private AdresseDto adresse;
     private String nom;
     private String prenom;

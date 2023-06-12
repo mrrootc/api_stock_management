@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Builder
 @Data
 public class UtilisateurDto {
-    private int id;
+    private Long id;
     private String nom;
     private String prenom;
     private Instant dateDeNaissance;

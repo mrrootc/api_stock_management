@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Builder
 @Data
 public class LigneCommandeClientDto {
-    private int id;
+    private Long id;
     private ArticleDto article;
     @JsonIgnore
     private CommandeClientDto commandeClient;

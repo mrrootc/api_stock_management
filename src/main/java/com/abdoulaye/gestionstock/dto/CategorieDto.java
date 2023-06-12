@@ -10,7 +10,7 @@ import java.util.List;
 @Builder
 @Data
 public class CategorieDto {
-    private int id;
+    private Long id;
     private String codeCategorie;
     private String description;
     private Integer idEntreprise;

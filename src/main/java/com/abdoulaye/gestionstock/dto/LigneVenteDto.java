@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Builder
 @Data
 public class LigneVenteDto {
-    private int id;
+    private Long id;
     private VenteDto vente;
     private ArticleDto article;
     private BigDecimal quantite;

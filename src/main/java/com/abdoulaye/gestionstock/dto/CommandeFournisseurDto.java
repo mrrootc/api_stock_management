@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @Data
 public class CommandeFournisseurDto {
-    private int id;
+    private Long id;
     private String code;
     private Instant dateCommande;
     private EtatCommande etatCommande;

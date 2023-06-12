@@ -22,7 +22,7 @@ import java.util.Date;
 public class AbstratEntity implements Serializable {
     @Id
     @GeneratedValue
-    private int id;
+    private Long id;
 
     @CreatedDate
     @Column(name = "dateCreation", nullable = false)

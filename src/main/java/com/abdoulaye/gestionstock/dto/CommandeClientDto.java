@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @Data
 public class CommandeClientDto {
-    private int id;
+    private Long id;
     private String code;
     private Instant dateCommande;
     private ClientDto client;
