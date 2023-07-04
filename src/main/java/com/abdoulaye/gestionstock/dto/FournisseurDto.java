@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @Data
 public class FournisseurDto {
-    private Long id;
+    private int id;
     private String nom;
     private String prenom;
     private String email;

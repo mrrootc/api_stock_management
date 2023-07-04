@@ -14,7 +14,7 @@ import java.time.Instant;
 @Builder
 @Data
 public class MouvementStockDto {
-    private Long id;
+    private int id;
     private ArticleDto article;
     private BigDecimal quantite;
     private Instant dateMvt;

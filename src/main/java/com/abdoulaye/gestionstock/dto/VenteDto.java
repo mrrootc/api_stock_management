@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 @Data
 public class VenteDto   {
-    private Long id;
+    private int id;
     private String code;
     private Instant dateVente;
     private String commentaire;
