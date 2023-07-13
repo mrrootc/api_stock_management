@@ -1,7 +1,8 @@
-package com.abdoulaye.gestionstock.repository;
+package com.bouali.gestiondestock.repository;
 
-import com.abdoulaye.gestionstock.models.Client;
+import com.bouali.gestiondestock.model.Client;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ClientRepository extends JpaRepository<Client, Long> {
+public interface ClientRepository extends JpaRepository<Client, Integer> {
+
 }
