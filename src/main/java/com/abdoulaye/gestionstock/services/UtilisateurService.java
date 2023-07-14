@@ -1,9 +1,11 @@
-package com.bouali.gestiondestock.services;
+package com.abdoulaye.gestionstock.services;
 
-import com.bouali.gestiondestock.dto.ChangerMotDePasseUtilisateurDto;
-import com.bouali.gestiondestock.dto.UtilisateurDto;
+import com.abdoulaye.gestionstock.dto.ChangerMotDePasseUtilisateurDto;
+import com.abdoulaye.gestionstock.dto.UtilisateurDto;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
-
+@Repository
 public interface UtilisateurService {
 
   UtilisateurDto save(UtilisateurDto dto);

@@ -1,40 +1,36 @@
-package com.bouali.gestiondestock.services.impl;
+package com.abdoulaye.gestionstock.services.impl;
 
-import com.bouali.gestiondestock.dto.EntrepriseDto;
-import com.bouali.gestiondestock.dto.RolesDto;
-import com.bouali.gestiondestock.dto.UtilisateurDto;
-import com.bouali.gestiondestock.exception.EntityNotFoundException;
-import com.bouali.gestiondestock.exception.ErrorCodes;
-import com.bouali.gestiondestock.exception.InvalidEntityException;
-import com.bouali.gestiondestock.repository.EntrepriseRepository;
-import com.bouali.gestiondestock.repository.RolesRepository;
-import com.bouali.gestiondestock.services.EntrepriseService;
-import com.bouali.gestiondestock.services.UtilisateurService;
-import com.bouali.gestiondestock.validator.EntrepriseValidator;
+import com.abdoulaye.gestionstock.dto.EntrepriseDto;
+import com.abdoulaye.gestionstock.dto.RoleDto;
+import com.abdoulaye.gestionstock.dto.UtilisateurDto;
+import com.abdoulaye.gestionstock.exception.EntityNotFoundException;
+import com.abdoulaye.gestionstock.exception.ErrorCodes;
+import com.abdoulaye.gestionstock.exception.InvalidEntityException;
+import com.abdoulaye.gestionstock.repository.EntrepriseRepository;
+import com.abdoulaye.gestionstock.repository.RolesRepository;
+import com.abdoulaye.gestionstock.services.EntrepriseService;
+import com.abdoulaye.gestionstock.services.UtilisateurService;
+import com.abdoulaye.gestionstock.validator.EntrepriseValidator;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+
 import java.time.Instant;
 import java.util.List;
 import java.util.stream.Collectors;
-import javax.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 @Transactional(rollbackOn = Exception.class)
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class EntrepriseServiceImpl implements EntrepriseService {
 
-  private EntrepriseRepository entrepriseRepository;
-  private UtilisateurService utilisateurService;
-  private RolesRepository rolesRepository;
+  private final EntrepriseRepository entrepriseRepository;
+  private final   UtilisateurService utilisateurService;
+  private final RolesRepository rolesRepository;
 
-  @Autowired
-  public EntrepriseServiceImpl(EntrepriseRepository entrepriseRepository, UtilisateurService utilisateurService,
-      RolesRepository rolesRepository) {
-    this.entrepriseRepository = entrepriseRepository;
-    this.utilisateurService = utilisateurService;
-    this.rolesRepository = rolesRepository;
-  }
 
   @Override
   public EntrepriseDto save(EntrepriseDto dto) {
@@ -51,12 +47,12 @@ public class EntrepriseServiceImpl implements EntrepriseService {
 
     UtilisateurDto savedUser = utilisateurService.save(utilisateur);
 
-    RolesDto rolesDto = RolesDto.builder()
-        .roleName("ADMIN")
+    RoleDto rolesDto = RoleDto.builder()
+        .nomRole("ADMIN")
         .utilisateur(savedUser)
         .build();
 
-    rolesRepository.save(RolesDto.toEntity(rolesDto));
+    rolesRepository.save(RoleDto.toEntity(rolesDto));
 
     return  savedEntreprise;
   }
@@ -67,21 +63,21 @@ public class EntrepriseServiceImpl implements EntrepriseService {
         .nom(dto.getNom())
         .prenom(dto.getCodeFiscal())
         .email(dto.getEmail())
-        .moteDePasse(generateRandomPassword())
+        .motDePasse(generateRandomPassword())
         .entreprise(dto)
         .dateDeNaissance(Instant.now())
-        .photo(dto.getPhoto())
+        .image(dto.getImage())
         .build();
   }
 
   private String generateRandomPassword() {
-    return "som3R@nd0mP@$$word";
+    return "MisterRoot@#$77$";
   }
 
   @Override
   public EntrepriseDto findById(Integer id) {
     if (id == null) {
-      log.error("Entreprise ID is null");
+      log.error("Entreprise ID est null");
       return null;
     }
     return entrepriseRepository.findById(id)
@@ -102,7 +98,7 @@ public class EntrepriseServiceImpl implements EntrepriseService {
   @Override
   public void delete(Integer id) {
     if (id == null) {
-      log.error("Entreprise ID is null");
+      log.error("Entreprise ID est null");
       return;
     }
     entrepriseRepository.deleteById(id);

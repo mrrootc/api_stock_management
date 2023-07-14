@@ -1,23 +1,24 @@
 package com.abdoulaye.gestionstock.services;
 
-import com.bouali.gestiondestock.dto.MvtStkDto;
+import com.abdoulaye.gestionstock.dto.MouvementStockDto;
+import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface MvtStkService {
+public interface MouvementStockService {
 
   BigDecimal stockReelArticle(Integer idArticle);
 
-  List<MvtStkDto> mvtStkArticle(Integer idArticle);
+  List<MouvementStockDto> mvtStkArticle(Integer idArticle);
 
-  MvtStkDto entreeStock(MvtStkDto dto);
+  MouvementStockDto entreeStock(MouvementStockDto dto);
 
-  MvtStkDto sortieStock(MvtStkDto dto);
+  MouvementStockDto sortieStock(MouvementStockDto dto);
 
-  MvtStkDto correctionStockPos(MvtStkDto dto);
+  MouvementStockDto correctionStockPos(MouvementStockDto dto);
 
-  MvtStkDto correctionStockNeg(MvtStkDto dto);
+  MouvementStockDto correctionStockNeg(MouvementStockDto dto);
 
 
 }

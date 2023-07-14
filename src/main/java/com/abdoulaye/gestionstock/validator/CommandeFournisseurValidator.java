@@ -28,7 +28,7 @@ public class CommandeFournisseurValidator {
         if (!StringUtils.hasLength(dto.getEtatCommande().toString())) {
             errors.add("Veuillez renseigner l'etat de la commande");
         }
-        if (dto.getFournisseurDto() == null ) {
+        if (dto.getFournisseur() == null ) {
             errors.add("Veuillez renseigner le fournisseur");
         }
         return errors;

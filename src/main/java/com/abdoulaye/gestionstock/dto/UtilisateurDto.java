@@ -1,6 +1,6 @@
 package com.abdoulaye.gestionstock.dto;
 
-import com.abdoulaye.gestionstock.models.Utilisateur;
+import com.abdoulaye.gestionstock.model.Utilisateur;
 import lombok.Builder;
 import lombok.Data;
 

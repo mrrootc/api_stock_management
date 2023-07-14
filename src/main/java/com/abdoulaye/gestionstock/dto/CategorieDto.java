@@ -1,6 +1,6 @@
 package com.abdoulaye.gestionstock.dto;
 
-import com.abdoulaye.gestionstock.models.Categorie;
+import com.abdoulaye.gestionstock.model.Categorie;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;

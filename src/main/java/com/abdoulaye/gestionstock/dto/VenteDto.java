@@ -1,7 +1,7 @@
 package com.abdoulaye.gestionstock.dto;
 
 
-import com.abdoulaye.gestionstock.models.Vente;
+import com.abdoulaye.gestionstock.model.Vente;
 import lombok.Builder;
 import lombok.Data;
 

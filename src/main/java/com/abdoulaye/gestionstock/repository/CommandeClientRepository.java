@@ -1,10 +1,12 @@
-package com.bouali.gestiondestock.repository;
+package com.abdoulaye.gestionstock.repository;
 
-import com.bouali.gestiondestock.model.CommandeClient;
+import com.abdoulaye.gestionstock.model.CommandeClient;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
-
+@Repository
 public interface CommandeClientRepository extends JpaRepository<CommandeClient, Integer> {
 
   Optional<CommandeClient> findCommandeClientByCode(String code);

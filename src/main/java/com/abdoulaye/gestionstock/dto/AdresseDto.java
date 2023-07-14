@@ -1,6 +1,6 @@
 package com.abdoulaye.gestionstock.dto;
 
-import com.abdoulaye.gestionstock.models.Adresse;
+import com.abdoulaye.gestionstock.model.Adresse;
 import lombok.Builder;
 import lombok.Data;
 

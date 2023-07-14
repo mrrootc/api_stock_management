@@ -1,11 +1,10 @@
-package com.abdoulaye.gestionstock.models;
+package com.abdoulaye.gestionstock.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -27,7 +26,7 @@ public class Categorie extends AbstratEntity{
     @Column(name = "identreprise")
     private Integer idEntreprise;
 
-    @OneToMany(mappedBy = "categorie")
+    @OneToMany(mappedBy = "categorieId")
     private List<Article> article;
 
 

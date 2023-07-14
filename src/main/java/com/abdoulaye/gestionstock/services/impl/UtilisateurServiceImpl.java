@@ -1,45 +1,41 @@
-package com.bouali.gestiondestock.services.impl;
+package com.abdoulaye.gestionstock.services.impl;
 
-import com.bouali.gestiondestock.dto.ChangerMotDePasseUtilisateurDto;
-import com.bouali.gestiondestock.dto.UtilisateurDto;
-import com.bouali.gestiondestock.exception.EntityNotFoundException;
-import com.bouali.gestiondestock.exception.ErrorCodes;
-import com.bouali.gestiondestock.exception.InvalidEntityException;
-import com.bouali.gestiondestock.exception.InvalidOperationException;
-import com.bouali.gestiondestock.model.Utilisateur;
-import com.bouali.gestiondestock.repository.UtilisateurRepository;
-import com.bouali.gestiondestock.services.UtilisateurService;
-import com.bouali.gestiondestock.validator.UtilisateurValidator;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+import com.abdoulaye.gestionstock.dto.ChangerMotDePasseUtilisateurDto;
+import com.abdoulaye.gestionstock.dto.UtilisateurDto;
+import com.abdoulaye.gestionstock.exception.EntityNotFoundException;
+import com.abdoulaye.gestionstock.exception.ErrorCodes;
+import com.abdoulaye.gestionstock.exception.InvalidEntityException;
+import com.abdoulaye.gestionstock.exception.InvalidOperationException;
+import com.abdoulaye.gestionstock.model.Utilisateur;
+import com.abdoulaye.gestionstock.repository.UtilisateurRepository;
+import com.abdoulaye.gestionstock.services.UtilisateurService;
+import com.abdoulaye.gestionstock.validator.UtilisateurValidator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UtilisateurServiceImpl implements UtilisateurService {
 
-  private UtilisateurRepository utilisateurRepository;
-  private PasswordEncoder passwordEncoder;
+  private final UtilisateurRepository utilisateurRepository;
+  private  PasswordEncoder passwordEncoder;
 
-  @Autowired
-  public UtilisateurServiceImpl(UtilisateurRepository utilisateurRepository,
-      PasswordEncoder passwordEncoder) {
-    this.utilisateurRepository = utilisateurRepository;
-    this.passwordEncoder = passwordEncoder;
-  }
 
   @Override
   public UtilisateurDto save(UtilisateurDto dto) {
     List<String> errors = UtilisateurValidator.validate(dto);
     if (!errors.isEmpty()) {
-      log.error("Utilisateur is not valid {}", dto);
+      log.error("Utilisateur n'est pas valide {}", dto);
       throw new InvalidEntityException("L'utilisateur n'est pas valide", ErrorCodes.UTILISATEUR_NOT_VALID, errors);
     }
 
@@ -49,7 +45,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
 
-    dto.setMoteDePasse(passwordEncoder.encode(dto.getMoteDePasse()));
+    dto.setMotDePasse(passwordEncoder.encode(dto.getMotDePasse()));
 
     return UtilisateurDto.fromEntity(
         utilisateurRepository.save(
@@ -66,7 +62,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
   @Override
   public UtilisateurDto findById(Integer id) {
     if (id == null) {
-      log.error("Utilisateur ID is null");
+      log.error("Utilisateur ID est null");
       return null;
     }
     return utilisateurRepository.findById(id)
@@ -87,7 +83,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
   @Override
   public void delete(Integer id) {
     if (id == null) {
-      log.error("Utilisateur ID is null");
+      log.error("Utilisateur ID est null");
       return;
     }
     utilisateurRepository.deleteById(id);
@@ -113,7 +109,7 @@ public class UtilisateurServiceImpl implements UtilisateurService {
     }
 
     Utilisateur utilisateur = utilisateurOptional.get();
-    utilisateur.setMoteDePasse(passwordEncoder.encode(dto.getMotDePasse()));
+    utilisateur.setMotDePasse(passwordEncoder.encode(dto.getMotDePasse()));
 
     return UtilisateurDto.fromEntity(
         utilisateurRepository.save(utilisateur)

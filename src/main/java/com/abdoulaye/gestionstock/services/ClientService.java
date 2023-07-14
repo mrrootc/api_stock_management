@@ -1,6 +1,9 @@
-package com.bouali.gestiondestock.services;
+package com.abdoulaye.gestionstock.services;
 
-import com.bouali.gestiondestock.dto.ClientDto;
+
+
+import com.abdoulaye.gestionstock.dto.ClientDto;
+
 import java.util.List;
 
 public interface ClientService {

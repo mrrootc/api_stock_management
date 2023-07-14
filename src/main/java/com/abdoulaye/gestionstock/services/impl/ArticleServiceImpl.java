@@ -1,48 +1,42 @@
-package com.bouali.gestiondestock.services.impl;
+package com.abdoulaye.gestionstock.services.impl;
 
-import com.bouali.gestiondestock.dto.ArticleDto;
-import com.bouali.gestiondestock.dto.LigneCommandeClientDto;
-import com.bouali.gestiondestock.dto.LigneCommandeFournisseurDto;
-import com.bouali.gestiondestock.dto.LigneVenteDto;
-import com.bouali.gestiondestock.exception.EntityNotFoundException;
-import com.bouali.gestiondestock.exception.ErrorCodes;
-import com.bouali.gestiondestock.exception.InvalidEntityException;
-import com.bouali.gestiondestock.exception.InvalidOperationException;
-import com.bouali.gestiondestock.model.LigneCommandeClient;
-import com.bouali.gestiondestock.model.LigneCommandeFournisseur;
-import com.bouali.gestiondestock.model.LigneVente;
-import com.bouali.gestiondestock.repository.ArticleRepository;
-import com.bouali.gestiondestock.repository.LigneCommandeClientRepository;
-import com.bouali.gestiondestock.repository.LigneCommandeFournisseurRepository;
-import com.bouali.gestiondestock.repository.LigneVenteRepository;
-import com.bouali.gestiondestock.services.ArticleService;
-import com.bouali.gestiondestock.validator.ArticleValidator;
+
+import com.abdoulaye.gestionstock.dto.ArticleDto;
+import com.abdoulaye.gestionstock.dto.LigneCommandeClientDto;
+import com.abdoulaye.gestionstock.dto.LigneCommandeFournisseurDto;
+import com.abdoulaye.gestionstock.dto.LigneVenteDto;
+import com.abdoulaye.gestionstock.exception.EntityNotFoundException;
+import com.abdoulaye.gestionstock.exception.ErrorCodes;
+import com.abdoulaye.gestionstock.exception.InvalidEntityException;
+import com.abdoulaye.gestionstock.exception.InvalidOperationException;
+import com.abdoulaye.gestionstock.model.LigneCommandeClient;
+import com.abdoulaye.gestionstock.model.LigneCommandeFournisseur;
+import com.abdoulaye.gestionstock.model.LigneVente;
+import com.abdoulaye.gestionstock.repository.ArticleRepository;
+import com.abdoulaye.gestionstock.repository.LigneCommandeClientRepository;
+import com.abdoulaye.gestionstock.repository.LigneCommandeFournisseurRepository;
+import com.abdoulaye.gestionstock.repository.LigneVenteRepository;
+import com.abdoulaye.gestionstock.services.ArticleService;
+import com.abdoulaye.gestionstock.validator.ArticleValidator;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
 
-  private ArticleRepository articleRepository;
-  private LigneVenteRepository venteRepository;
-  private LigneCommandeFournisseurRepository commandeFournisseurRepository;
-  private LigneCommandeClientRepository commandeClientRepository;
+  private final ArticleRepository articleRepository;
+  private final LigneVenteRepository venteRepository;
+  private final LigneCommandeFournisseurRepository commandeFournisseurRepository;
+  private final LigneCommandeClientRepository commandeClientRepository;
 
-  @Autowired
-  public ArticleServiceImpl(
-      ArticleRepository articleRepository,
-      LigneVenteRepository venteRepository, LigneCommandeFournisseurRepository commandeFournisseurRepository,
-      LigneCommandeClientRepository commandeClientRepository) {
-    this.articleRepository = articleRepository;
-    this.venteRepository = venteRepository;
-    this.commandeFournisseurRepository = commandeFournisseurRepository;
-    this.commandeClientRepository = commandeClientRepository;
-  }
+
 
   @Override
   public ArticleDto save(ArticleDto dto) {
@@ -59,6 +53,7 @@ public class ArticleServiceImpl implements ArticleService {
     );
   }
 
+
   @Override
   public ArticleDto findById(Integer id) {
     if (id == null) {
@@ -73,21 +68,24 @@ public class ArticleServiceImpl implements ArticleService {
     );
   }
 
-  @Override
-  public ArticleDto findByCodeArticle(String codeArticle) {
-    if (!StringUtils.hasLength(codeArticle)) {
-      log.error("Article CODE is null");
-      return null;
-    }
 
-    return articleRepository.findArticleByCodeArticle(codeArticle)
-        .map(ArticleDto::fromEntity)
-        .orElseThrow(() ->
-            new EntityNotFoundException(
-                "Aucun article avec le CODE = " + codeArticle + " n' ete trouve dans la BDD",
-                ErrorCodes.ARTICLE_NOT_FOUND)
-        );
-  }
+
+ // @Override
+//  public ArticleDto findByCodeArticle(String codeArticle) {
+//    if (!StringUtils.hasLength(codeArticle)) {
+//      log.error("Article CODE is null");
+//      return null;
+//    }
+//
+//    return articleRepository.findArticleByCodeArticle(Integer.valueOf(codeArticle))
+//        .map(ArticleDto::fromEntity)
+//        .orElseThrow(() ->
+//            new EntityNotFoundException(
+//                "Aucun article avec le CODE = " + codeArticle + " n' ete trouve dans la BDD",
+//                ErrorCodes.ARTICLE_NOT_FOUND)
+//        );
+//  }
+
 
   @Override
   public List<ArticleDto> findAll() {
@@ -117,12 +115,14 @@ public class ArticleServiceImpl implements ArticleService {
         .collect(Collectors.toList());
   }
 
-  @Override
-  public List<ArticleDto> findAllArticleByIdCategory(Integer idCategory) {
-    return articleRepository.findAllByCategoryId(idCategory).stream()
-        .map(ArticleDto::fromEntity)
-        .collect(Collectors.toList());
-  }
+
+
+//  @Override
+//  public List<ArticleDto> findAllArticleByIdCategory(Integer idCategory) {
+//    return articleRepository.findArticleByCodeArticle(idCategory).stream()
+//        .map(ArticleDto::fromEntity)
+//        .collect(Collectors.toList());
+//  }
 
   @Override
   public void delete(Integer id) {

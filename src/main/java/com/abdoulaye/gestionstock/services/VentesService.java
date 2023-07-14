@@ -1,17 +1,18 @@
-package com.bouali.gestiondestock.services;
+package com.abdoulaye.gestionstock.services;
 
-import com.bouali.gestiondestock.dto.VentesDto;
+import com.abdoulaye.gestionstock.dto.VenteDto;
+
 import java.util.List;
 
 public interface VentesService {
 
-  VentesDto save(VentesDto dto);
+  VenteDto save(VenteDto dto);
 
-  VentesDto findById(Integer id);
+  VenteDto findById(Integer id);
 
-  VentesDto findByCode(String code);
+  VenteDto findByCode(String code);
 
-  List<VentesDto> findAll();
+  List<VenteDto> findAll();
 
   void delete(Integer id);
 

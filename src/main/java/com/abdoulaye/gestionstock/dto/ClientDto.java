@@ -1,7 +1,6 @@
 package com.abdoulaye.gestionstock.dto;
 
-import com.abdoulaye.gestionstock.models.Adresse;
-import com.abdoulaye.gestionstock.models.Client;
+import com.abdoulaye.gestionstock.model.Client;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Builder;
 import lombok.Data;

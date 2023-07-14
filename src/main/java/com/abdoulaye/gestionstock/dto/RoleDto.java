@@ -1,6 +1,6 @@
 package com.abdoulaye.gestionstock.dto;
 
-import com.abdoulaye.gestionstock.models.Role;
+import com.abdoulaye.gestionstock.model.Role;
 import lombok.Builder;
 import lombok.Data;
 

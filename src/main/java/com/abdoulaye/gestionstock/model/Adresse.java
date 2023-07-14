@@ -1,7 +1,6 @@
-package com.abdoulaye.gestionstock.models;
+package com.abdoulaye.gestionstock.model;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
 import lombok.*;
 
 @Data

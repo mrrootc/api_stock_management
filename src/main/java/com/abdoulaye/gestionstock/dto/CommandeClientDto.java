@@ -2,9 +2,8 @@ package com.abdoulaye.gestionstock.dto;
 
 
 
-import com.abdoulaye.gestionstock.models.Client;
-import com.abdoulaye.gestionstock.models.CommandeClient;
-import com.abdoulaye.gestionstock.models.EtatCommande;
+import com.abdoulaye.gestionstock.model.CommandeClient;
+import com.abdoulaye.gestionstock.model.EtatCommande;
 import lombok.Builder;
 import lombok.Data;
 
@@ -14,7 +13,7 @@ import java.util.List;
 @Builder
 @Data
 public class CommandeClientDto {
-    private int id;
+    private Integer id;
     private String code;
     private Instant dateCommande;
     private ClientDto client;
@@ -53,5 +52,9 @@ public class CommandeClientDto {
 
 
         return commandeClient;
+    }
+
+    public boolean isCommandeLivree() {
+        return EtatCommande.LIVREE.equals(this.etatCommande);
     }
 }

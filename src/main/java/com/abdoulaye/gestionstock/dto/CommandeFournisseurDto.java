@@ -3,8 +3,8 @@ package com.abdoulaye.gestionstock.dto;
 
 
 
-import com.abdoulaye.gestionstock.models.CommandeFournisseur;
-import com.abdoulaye.gestionstock.models.EtatCommande;
+import com.abdoulaye.gestionstock.model.CommandeFournisseur;
+import com.abdoulaye.gestionstock.model.EtatCommande;
 import lombok.Builder;
 import lombok.Data;
 
@@ -18,9 +18,9 @@ public class CommandeFournisseurDto {
     private String code;
     private Instant dateCommande;
     private EtatCommande etatCommande;
-    private FournisseurDto fournisseurDto;
+    private FournisseurDto fournisseur;
     private Integer idEntreprise;
-    private List<LigneCommandeFournisseurDto> ligneCommandeFournisseursDto;
+    private List<LigneCommandeFournisseurDto> ligneCommandeFournisseurs;
 
     public static CommandeFournisseurDto fromEntity(CommandeFournisseur commandeFournisseur){
         if(commandeFournisseur == null){
@@ -30,7 +30,7 @@ public class CommandeFournisseurDto {
                 .id(commandeFournisseur.getId())
                 .code(commandeFournisseur.getCode())
                 .dateCommande(commandeFournisseur.getDateCommande())
-                .fournisseurDto(FournisseurDto.fromEntity(commandeFournisseur.getFournisseur()))
+                .fournisseur(FournisseurDto.fromEntity(commandeFournisseur.getFournisseur()))
                 .etatCommande(commandeFournisseur.getEtatCommande())
                 .idEntreprise(commandeFournisseur.getIdEntreprise())
                 .build();
@@ -45,10 +45,14 @@ public class CommandeFournisseurDto {
         commandeFournisseur.setId(commandeFournisseurDto.getId());
         commandeFournisseur.setCode(commandeFournisseurDto.getCode());
         commandeFournisseur.setDateCommande(commandeFournisseurDto.getDateCommande());
-        commandeFournisseur.setFournisseur(FournisseurDto.toEntity(commandeFournisseurDto.getFournisseurDto()));
+        commandeFournisseur.setFournisseur(FournisseurDto.toEntity(commandeFournisseurDto.getFournisseur()));
         commandeFournisseur.setIdEntreprise(commandeFournisseurDto.getIdEntreprise());
         commandeFournisseur.setEtatCommande(commandeFournisseur.getEtatCommande());
 
         return commandeFournisseur;
+    }
+
+    public boolean isCommandeLivree() {
+        return EtatCommande.LIVREE.equals(this.etatCommande);
     }
 }

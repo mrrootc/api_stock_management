@@ -1,15 +1,17 @@
-package com.bouali.gestiondestock.repository;
+package com.abdoulaye.gestionstock.repository;
 
-import com.bouali.gestiondestock.model.Article;
+
+import com.abdoulaye.gestionstock.model.Article;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
 import java.util.List;
 import java.util.Optional;
-import org.springframework.data.jpa.repository.JpaRepository;
-
+@Repository
 public interface ArticleRepository extends JpaRepository<Article, Integer> {
 
-  Optional<Article> findArticleByCodeArticle(String codeArticle);
 
-  List<Article> findAllByCategoryId(Integer idCategory);
-
+  //List<Article> findAllByCategorieId(Integer idCategory);
+  //Optional<Article> findArticleByCodeArticle(Integer codeArticle);
 
 }

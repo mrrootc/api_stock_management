@@ -1,7 +1,6 @@
 package com.abdoulaye.gestionstock.validator;
 
 import com.abdoulaye.gestionstock.dto.UtilisateurDto;
-import com.abdoulaye.gestionstock.models.Utilisateur;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;

@@ -1,7 +1,6 @@
 package com.abdoulaye.gestionstock.validator;
 
 import com.abdoulaye.gestionstock.dto.CommandeClientDto;
-import com.abdoulaye.gestionstock.models.CommandeClient;
 import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;

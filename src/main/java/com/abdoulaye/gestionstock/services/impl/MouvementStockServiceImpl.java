@@ -1,15 +1,17 @@
 package com.abdoulaye.gestionstock.services.impl;
 
-import com.bouali.gestiondestock.dto.MvtStkDto;
-import com.bouali.gestiondestock.exception.ErrorCodes;
-import com.bouali.gestiondestock.exception.InvalidEntityException;
-import com.bouali.gestiondestock.model.TypeMvtStk;
-import com.bouali.gestiondestock.repository.MvtStkRepository;
-import com.bouali.gestiondestock.services.ArticleService;
-import com.bouali.gestiondestock.services.MvtStkService;
-import com.bouali.gestiondestock.validator.MvtStkValidator;
+import com.abdoulaye.gestionstock.dto.MouvementStockDto;
+import com.abdoulaye.gestionstock.exception.ErrorCodes;
+import com.abdoulaye.gestionstock.exception.InvalidEntityException;
+import com.abdoulaye.gestionstock.model.TypeMouvementStock;
+import com.abdoulaye.gestionstock.repository.MvtStkRepository;
+import com.abdoulaye.gestionstock.services.ArticleService;
+import com.abdoulaye.gestionstock.services.MouvementStockService;
+import com.abdoulaye.gestionstock.validator.MouvementStockValidator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -18,16 +20,12 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class MvtStkServiceImpl implements MvtStkService {
+@RequiredArgsConstructor
+public class MouvementStockServiceImpl implements MouvementStockService {
 
-  private MvtStkRepository repository;
-  private ArticleService articleService;
+  private final MvtStkRepository repository;
+  private final ArticleService articleService;
 
-  @Autowired
-  public MvtStkServiceImpl(MvtStkRepository repository, ArticleService articleService) {
-    this.repository = repository;
-    this.articleService = articleService;
-  }
 
   @Override
   public BigDecimal stockReelArticle(Integer idArticle) {
@@ -40,34 +38,34 @@ public class MvtStkServiceImpl implements MvtStkService {
   }
 
   @Override
-  public List<MvtStkDto> mvtStkArticle(Integer idArticle) {
+  public List<MouvementStockDto> mvtStkArticle(Integer idArticle) {
     return repository.findAllByArticleId(idArticle).stream()
-        .map(MvtStkDto::fromEntity)
+        .map(MouvementStockDto::fromEntity)
         .collect(Collectors.toList());
   }
 
   @Override
-  public MvtStkDto entreeStock(MvtStkDto dto) {
-    return entreePositive(dto, TypeMvtStk.ENTREE);
+  public MouvementStockDto entreeStock(MouvementStockDto dto) {
+    return entreePositive(dto, TypeMouvementStock.ENTRE);
   }
 
   @Override
-  public MvtStkDto sortieStock(MvtStkDto dto) {
-    return sortieNegative(dto, TypeMvtStk.SORTIE);
+  public MouvementStockDto sortieStock(MouvementStockDto dto) {
+    return sortieNegative(dto, TypeMouvementStock.SORTIE);
   }
 
   @Override
-  public MvtStkDto correctionStockPos(MvtStkDto dto) {
-    return entreePositive(dto, TypeMvtStk.CORRECTION_POS);
+  public MouvementStockDto correctionStockPos(MouvementStockDto dto) {
+    return entreePositive(dto, TypeMouvementStock.CORRECTION_POS);
   }
 
   @Override
-  public MvtStkDto correctionStockNeg(MvtStkDto dto) {
-    return sortieNegative(dto, TypeMvtStk.CORRECTION_NEG);
+  public MouvementStockDto correctionStockNeg(MouvementStockDto dto) {
+    return sortieNegative(dto, TypeMouvementStock.CORRECTION_NEG);
   }
 
-  private MvtStkDto entreePositive(MvtStkDto dto, TypeMvtStk typeMvtStk) {
-    List<String> errors = MvtStkValidator.validate(dto);
+  private MouvementStockDto entreePositive(MouvementStockDto dto, TypeMouvementStock typeMvtStk) {
+    List<String> errors = MouvementStockValidator.validate(dto);
     if (!errors.isEmpty()) {
       log.error("Article is not valid {}", dto);
       throw new InvalidEntityException("Le mouvement du stock n'est pas valide", ErrorCodes.MVT_STK_NOT_VALID, errors);
@@ -78,13 +76,13 @@ public class MvtStkServiceImpl implements MvtStkService {
         )
     );
     dto.setTypeMvt(typeMvtStk);
-    return MvtStkDto.fromEntity(
-        repository.save(MvtStkDto.toEntity(dto))
+    return MouvementStockDto.fromEntity(
+        repository.save(MouvementStockDto.toEntity(dto))
     );
   }
 
-  private MvtStkDto sortieNegative(MvtStkDto dto, TypeMvtStk typeMvtStk) {
-    List<String> errors = MvtStkValidator.validate(dto);
+  private MouvementStockDto sortieNegative(MouvementStockDto dto, TypeMouvementStock typeMvtStk) {
+    List<String> errors = MouvementStockValidator.validate(dto);
     if (!errors.isEmpty()) {
       log.error("Article is not valid {}", dto);
       throw new InvalidEntityException("Le mouvement du stock n'est pas valide", ErrorCodes.MVT_STK_NOT_VALID, errors);
@@ -95,8 +93,8 @@ public class MvtStkServiceImpl implements MvtStkService {
         )
     );
     dto.setTypeMvt(typeMvtStk);
-    return MvtStkDto.fromEntity(
-        repository.save(MvtStkDto.toEntity(dto))
+    return MouvementStockDto.fromEntity(
+        repository.save(MouvementStockDto.toEntity(dto))
     );
   }
 }

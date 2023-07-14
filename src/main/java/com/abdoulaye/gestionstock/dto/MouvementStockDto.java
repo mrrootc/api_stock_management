@@ -1,10 +1,8 @@
 package com.abdoulaye.gestionstock.dto;
 
-import com.abdoulaye.gestionstock.models.Article;
-import com.abdoulaye.gestionstock.models.MouvementStock;
-import com.abdoulaye.gestionstock.models.SourceMouvementStock;
-import com.abdoulaye.gestionstock.models.TypeMouvementStock;
-import jakarta.persistence.Column;
+import com.abdoulaye.gestionstock.model.MouvementStock;
+import com.abdoulaye.gestionstock.model.SourceMouvementStock;
+import com.abdoulaye.gestionstock.model.TypeMouvementStock;
 import lombok.Builder;
 import lombok.Data;
 

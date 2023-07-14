@@ -1,41 +1,37 @@
-package com.bouali.gestiondestock.services.impl;
+package com.abdoulaye.gestionstock.services.impl;
 
-import com.bouali.gestiondestock.dto.FournisseurDto;
-import com.bouali.gestiondestock.exception.EntityNotFoundException;
-import com.bouali.gestiondestock.exception.ErrorCodes;
-import com.bouali.gestiondestock.exception.InvalidEntityException;
-import com.bouali.gestiondestock.exception.InvalidOperationException;
-import com.bouali.gestiondestock.model.CommandeClient;
-import com.bouali.gestiondestock.repository.CommandeFournisseurRepository;
-import com.bouali.gestiondestock.repository.FournisseurRepository;
-import com.bouali.gestiondestock.services.FournisseurService;
-import com.bouali.gestiondestock.validator.FournisseurValidator;
+import com.abdoulaye.gestionstock.dto.FournisseurDto;
+import com.abdoulaye.gestionstock.exception.EntityNotFoundException;
+import com.abdoulaye.gestionstock.exception.ErrorCodes;
+import com.abdoulaye.gestionstock.exception.InvalidEntityException;
+import com.abdoulaye.gestionstock.exception.InvalidOperationException;
+import com.abdoulaye.gestionstock.model.CommandeClient;
+import com.abdoulaye.gestionstock.repository.CommandeFournisseurRepository;
+import com.abdoulaye.gestionstock.repository.FournisseurRepository;
+import com.abdoulaye.gestionstock.services.FournisseurService;
+import com.abdoulaye.gestionstock.validator.FournisseurValidator;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class FournisseurServiceImpl implements FournisseurService {
 
-  private FournisseurRepository fournisseurRepository;
-  private CommandeFournisseurRepository commandeFournisseurRepository;
+  private final FournisseurRepository fournisseurRepository;
+  private final CommandeFournisseurRepository commandeFournisseurRepository;
 
-  @Autowired
-  public FournisseurServiceImpl(FournisseurRepository fournisseurRepository,
-      CommandeFournisseurRepository commandeFournisseurRepository) {
-    this.fournisseurRepository = fournisseurRepository;
-    this.commandeFournisseurRepository = commandeFournisseurRepository;
-  }
 
   @Override
   public FournisseurDto save(FournisseurDto dto) {
     List<String> errors = FournisseurValidator.validate(dto);
     if (!errors.isEmpty()) {
-      log.error("Fournisseur is not valid {}", dto);
+      log.error("Fournisseur n'est pas valide {}", dto);
       throw new InvalidEntityException("Le fournisseur n'est pas valide", ErrorCodes.FOURNISSEUR_NOT_VALID, errors);
     }
 
@@ -49,7 +45,7 @@ public class FournisseurServiceImpl implements FournisseurService {
   @Override
   public FournisseurDto findById(Integer id) {
     if (id == null) {
-      log.error("Fournisseur ID is null");
+      log.error("Fournisseur ID est null");
       return null;
     }
     return fournisseurRepository.findById(id)
@@ -70,7 +66,7 @@ public class FournisseurServiceImpl implements FournisseurService {
   @Override
   public void delete(Integer id) {
     if (id == null) {
-      log.error("Fournisseur ID is null");
+      log.error("Fournisseur ID est null");
       return;
     }
     List<CommandeClient> commandeFournisseur = commandeFournisseurRepository.findAllByFournisseurId(id);

@@ -1,7 +1,6 @@
 package com.abdoulaye.gestionstock.dto;
 
-import com.abdoulaye.gestionstock.models.LigneCommandeFournisseur;
-import com.abdoulaye.gestionstock.models.LigneVente;
+import com.abdoulaye.gestionstock.model.LigneVente;
 import lombok.Builder;
 import lombok.Data;
 

@@ -1,61 +1,43 @@
-package com.bouali.gestiondestock.services.impl;
+package com.abdoulaye.gestionstock.services.impl;
 
-import com.bouali.gestiondestock.dto.ArticleDto;
-import com.bouali.gestiondestock.dto.CommandeFournisseurDto;
-import com.bouali.gestiondestock.dto.FournisseurDto;
-import com.bouali.gestiondestock.dto.LigneCommandeFournisseurDto;
-import com.bouali.gestiondestock.dto.MvtStkDto;
-import com.bouali.gestiondestock.exception.EntityNotFoundException;
-import com.bouali.gestiondestock.exception.ErrorCodes;
-import com.bouali.gestiondestock.exception.InvalidEntityException;
-import com.bouali.gestiondestock.exception.InvalidOperationException;
-import com.bouali.gestiondestock.model.Article;
-import com.bouali.gestiondestock.model.CommandeFournisseur;
-import com.bouali.gestiondestock.model.EtatCommande;
-import com.bouali.gestiondestock.model.Fournisseur;
-import com.bouali.gestiondestock.model.LigneCommandeClient;
-import com.bouali.gestiondestock.model.LigneCommandeFournisseur;
-import com.bouali.gestiondestock.model.SourceMvtStk;
-import com.bouali.gestiondestock.model.TypeMvtStk;
-import com.bouali.gestiondestock.repository.ArticleRepository;
-import com.bouali.gestiondestock.repository.CommandeFournisseurRepository;
-import com.bouali.gestiondestock.repository.FournisseurRepository;
-import com.bouali.gestiondestock.repository.LigneCommandeFournisseurRepository;
-import com.bouali.gestiondestock.services.CommandeFournisseurService;
-import com.bouali.gestiondestock.services.MvtStkService;
-import com.bouali.gestiondestock.validator.ArticleValidator;
-import com.bouali.gestiondestock.validator.CommandeFournisseurValidator;
+import com.abdoulaye.gestionstock.dto.*;
+import com.abdoulaye.gestionstock.exception.EntityNotFoundException;
+import com.abdoulaye.gestionstock.exception.ErrorCodes;
+import com.abdoulaye.gestionstock.exception.InvalidEntityException;
+import com.abdoulaye.gestionstock.exception.InvalidOperationException;
+import com.abdoulaye.gestionstock.model.*;
+import com.abdoulaye.gestionstock.repository.ArticleRepository;
+import com.abdoulaye.gestionstock.repository.CommandeFournisseurRepository;
+import com.abdoulaye.gestionstock.repository.FournisseurRepository;
+import com.abdoulaye.gestionstock.repository.LigneCommandeFournisseurRepository;
+import com.abdoulaye.gestionstock.services.CommandeFournisseurService;
+import com.abdoulaye.gestionstock.services.MouvementStockService;
+import com.abdoulaye.gestionstock.validator.ArticleValidator;
+import com.abdoulaye.gestionstock.validator.CommandeFournisseurValidator;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CommandeFournisseurServiceImpl implements CommandeFournisseurService {
 
-  private CommandeFournisseurRepository commandeFournisseurRepository;
-  private LigneCommandeFournisseurRepository ligneCommandeFournisseurRepository;
-  private FournisseurRepository fournisseurRepository;
-  private ArticleRepository articleRepository;
-  private MvtStkService mvtStkService;
+  private final CommandeFournisseurRepository commandeFournisseurRepository;
+  private final LigneCommandeFournisseurRepository ligneCommandeFournisseurRepository;
+  private final FournisseurRepository fournisseurRepository;
+  private final ArticleRepository articleRepository;
+  private final MouvementStockService mvtStkService;
 
-  @Autowired
-  public CommandeFournisseurServiceImpl(CommandeFournisseurRepository commandeFournisseurRepository,
-      FournisseurRepository fournisseurRepository, ArticleRepository articleRepository,
-      LigneCommandeFournisseurRepository ligneCommandeFournisseurRepository, MvtStkService mvtStkService) {
-    this.commandeFournisseurRepository = commandeFournisseurRepository;
-    this.ligneCommandeFournisseurRepository = ligneCommandeFournisseurRepository;
-    this.fournisseurRepository = fournisseurRepository;
-    this.articleRepository = articleRepository;
-    this.mvtStkService = mvtStkService;
-  }
+
 
   @Override
   public CommandeFournisseurDto save(CommandeFournisseurDto dto) {
@@ -67,13 +49,13 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
       throw new InvalidEntityException("La commande fournisseur n'est pas valide", ErrorCodes.COMMANDE_FOURNISSEUR_NOT_VALID, errors);
     }
 
-    if (dto.getId() != null && dto.isCommandeLivree()) {
+    if (dto.isCommandeLivree()) {
       throw new InvalidOperationException("Impossible de modifier la commande lorsqu'elle est livree", ErrorCodes.COMMANDE_FOURNISSEUR_NON_MODIFIABLE);
     }
 
     Optional<Fournisseur> fournisseur = fournisseurRepository.findById(dto.getFournisseur().getId());
     if (fournisseur.isEmpty()) {
-      log.warn("Fournisseur with ID {} was not found in the DB", dto.getFournisseur().getId());
+      log.warn("Fournisseur avec Id {} n'est pas trouvé dans la DB", dto.getFournisseur().getId());
       throw new EntityNotFoundException("Aucun fournisseur avec l'ID" + dto.getFournisseur().getId() + " n'a ete trouve dans la BDD",
           ErrorCodes.FOURNISSEUR_NOT_FOUND);
     }
@@ -117,7 +99,7 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
   @Override
   public CommandeFournisseurDto findById(Integer id) {
     if (id == null) {
-      log.error("Commande fournisseur ID is NULL");
+      log.error("Commande fournisseur ID est NULL");
       return null;
     }
     return commandeFournisseurRepository.findById(id)
@@ -192,7 +174,7 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
     checkIdLigneCommande(idLigneCommande);
 
     if (quantite == null || quantite.compareTo(BigDecimal.ZERO) == 0) {
-      log.error("L'ID de la ligne commande is NULL");
+      log.error("L'ID de la ligne commande est NULL");
       throw new InvalidOperationException("Impossible de modifier l'etat de la commande avec une quantite null ou ZERO",
           ErrorCodes.COMMANDE_FOURNISSEUR_NON_MODIFIABLE);
     }
@@ -211,7 +193,7 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
   public CommandeFournisseurDto updateFournisseur(Integer idCommande, Integer idFournisseur) {
     checkIdCommande(idCommande);
     if (idFournisseur == null) {
-      log.error("L'ID du fournisseur is NULL");
+      log.error("L'ID du fournisseur est NULL");
       throw new InvalidOperationException("Impossible de modifier l'etat de la commande avec un ID fournisseur null",
           ErrorCodes.COMMANDE_FOURNISSEUR_NON_MODIFIABLE);
     }
@@ -318,11 +300,11 @@ public class CommandeFournisseurServiceImpl implements CommandeFournisseurServic
   }
 
   private void effectuerEntree(LigneCommandeFournisseur lig) {
-    MvtStkDto mvtStkDto = MvtStkDto.builder()
+    MouvementStockDto mvtStkDto = MouvementStockDto.builder()
         .article(ArticleDto.fromEntity(lig.getArticle()))
         .dateMvt(Instant.now())
-        .typeMvt(TypeMvtStk.ENTREE)
-        .sourceMvt(SourceMvtStk.COMMANDE_FOURNISSEUR)
+        .typeMvt(TypeMouvementStock.ENTRE)
+        .sourceMvt(SourceMouvementStock.COMMANDE_FOURNISSEUR)
         .quantite(lig.getQuantite())
         .idEntreprise(lig.getIdEntreprise())
         .build();

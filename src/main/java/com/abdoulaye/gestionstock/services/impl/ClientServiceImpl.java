@@ -1,39 +1,37 @@
-package com.bouali.gestiondestock.services.impl;
+package com.abdoulaye.gestionstock.services.impl;
 
-import com.bouali.gestiondestock.dto.ClientDto;
-import com.bouali.gestiondestock.exception.EntityNotFoundException;
-import com.bouali.gestiondestock.exception.ErrorCodes;
-import com.bouali.gestiondestock.exception.InvalidEntityException;
-import com.bouali.gestiondestock.exception.InvalidOperationException;
-import com.bouali.gestiondestock.model.CommandeClient;
-import com.bouali.gestiondestock.repository.ClientRepository;
-import com.bouali.gestiondestock.repository.CommandeClientRepository;
-import com.bouali.gestiondestock.services.ClientService;
-import com.bouali.gestiondestock.validator.ClientValidator;
-import java.util.List;
-import java.util.stream.Collectors;
+import com.abdoulaye.gestionstock.dto.ClientDto;
+import com.abdoulaye.gestionstock.exception.EntityNotFoundException;
+import com.abdoulaye.gestionstock.exception.ErrorCodes;
+import com.abdoulaye.gestionstock.exception.InvalidEntityException;
+import com.abdoulaye.gestionstock.exception.InvalidOperationException;
+import com.abdoulaye.gestionstock.model.CommandeClient;
+import com.abdoulaye.gestionstock.repository.ClientRepository;
+import com.abdoulaye.gestionstock.repository.CommandeClientRepository;
+import com.abdoulaye.gestionstock.services.ClientService;
+import com.abdoulaye.gestionstock.validator.ClientValidator;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class ClientServiceImpl implements ClientService {
 
-  private ClientRepository clientRepository;
-  private CommandeClientRepository commandeClientRepository;
+  private final ClientRepository clientRepository;
+  private final CommandeClientRepository commandeClientRepository;
 
-  @Autowired
-  public ClientServiceImpl(ClientRepository clientRepository, CommandeClientRepository commandeClientRepository) {
-    this.clientRepository = clientRepository;
-    this.commandeClientRepository = commandeClientRepository;
-  }
 
   @Override
   public ClientDto save(ClientDto dto) {
     List<String> errors = ClientValidator.validate(dto);
     if (!errors.isEmpty()) {
-      log.error("Client is not valid {}", dto);
+      log.error("Client n'est pas valide {}", dto);
       throw new InvalidEntityException("Le client n'est pas valide", ErrorCodes.CLIENT_NOT_VALID, errors);
     }
 
@@ -47,7 +45,7 @@ public class ClientServiceImpl implements ClientService {
   @Override
   public ClientDto findById(Integer id) {
     if (id == null) {
-      log.error("Client ID is null");
+      log.error("Client ID est null");
       return null;
     }
     return clientRepository.findById(id)
@@ -68,7 +66,7 @@ public class ClientServiceImpl implements ClientService {
   @Override
   public void delete(Integer id) {
     if (id == null) {
-      log.error("Client ID is null");
+      log.error("Client ID est null");
       return;
     }
     List<CommandeClient> commandeClients = commandeClientRepository.findAllByClientId(id);

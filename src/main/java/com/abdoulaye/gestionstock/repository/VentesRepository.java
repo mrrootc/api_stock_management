@@ -1,10 +1,14 @@
-package com.bouali.gestiondestock.repository;
+package com.abdoulaye.gestionstock.repository;
 
-import com.bouali.gestiondestock.model.Ventes;
-import java.util.Optional;
+
+import com.abdoulaye.gestionstock.model.Vente;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface VentesRepository extends JpaRepository<Ventes, Integer> {
+import java.util.Optional;
 
-  Optional<Ventes> findVentesByCode(String code);
+@Repository
+public interface VentesRepository extends JpaRepository<Vente, Integer> {
+
+  Optional<Vente> findVentesByCode(String code);
 }

@@ -1,9 +1,12 @@
-package com.bouali.gestiondestock.repository;
+package com.abdoulaye.gestionstock.repository;
 
-import com.bouali.gestiondestock.model.LigneVente;
-import java.util.List;
+
+import com.abdoulaye.gestionstock.model.LigneVente;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
+import java.util.List;
+@Repository
 public interface LigneVenteRepository extends JpaRepository<LigneVente, Integer> {
 
   List<LigneVente> findAllByArticleId(Integer idArticle);

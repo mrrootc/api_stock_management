@@ -1,4 +1,4 @@
-package com.abdoulaye.gestionstock.models;
+package com.abdoulaye.gestionstock.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -25,7 +25,7 @@ public class AbstratEntity implements Serializable {
     private Integer id;
 
     @CreatedDate
-    @Column(name = "dateCreation", nullable = false)
+    @Column(name = "dateCreation", nullable = false, updatable = false)
     @JsonIgnore //Cette annotation veut dire que nous avons pas besoin de la colonne la lors de l'appel a l'API
     private Date dateCreation;
 

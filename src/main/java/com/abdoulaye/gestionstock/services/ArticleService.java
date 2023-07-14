@@ -1,9 +1,10 @@
-package com.bouali.gestiondestock.services;
+package com.abdoulaye.gestionstock.services;
 
-import com.bouali.gestiondestock.dto.ArticleDto;
-import com.bouali.gestiondestock.dto.LigneCommandeClientDto;
-import com.bouali.gestiondestock.dto.LigneCommandeFournisseurDto;
-import com.bouali.gestiondestock.dto.LigneVenteDto;
+import com.abdoulaye.gestionstock.dto.ArticleDto;
+import com.abdoulaye.gestionstock.dto.LigneCommandeClientDto;
+import com.abdoulaye.gestionstock.dto.LigneCommandeFournisseurDto;
+import com.abdoulaye.gestionstock.dto.LigneVenteDto;
+
 import java.util.List;
 
 public interface ArticleService {
@@ -12,7 +13,8 @@ public interface ArticleService {
 
   ArticleDto findById(Integer id);
 
-  ArticleDto findByCodeArticle(String codeArticle);
+//  ArticleDto findByCodeArticle(String codeArticle);
+
 
   List<ArticleDto> findAll();
 
@@ -22,7 +24,7 @@ public interface ArticleService {
 
   List<LigneCommandeFournisseurDto> findHistoriqueCommandeFournisseur(Integer idArticle);
 
-  List<ArticleDto> findAllArticleByIdCategory(Integer idCategory);
+ // List<ArticleDto> findAllArticleByIdCategory(Integer idCategory);
 
   void delete(Integer id);
 

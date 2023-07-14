@@ -1,60 +1,42 @@
-package com.bouali.gestiondestock.services.impl;
+package com.abdoulaye.gestionstock.services.impl;
 
-import com.bouali.gestiondestock.dto.ArticleDto;
-import com.bouali.gestiondestock.dto.ClientDto;
-import com.bouali.gestiondestock.dto.CommandeClientDto;
-import com.bouali.gestiondestock.dto.LigneCommandeClientDto;
-import com.bouali.gestiondestock.dto.MvtStkDto;
-import com.bouali.gestiondestock.exception.EntityNotFoundException;
-import com.bouali.gestiondestock.exception.ErrorCodes;
-import com.bouali.gestiondestock.exception.InvalidEntityException;
-import com.bouali.gestiondestock.exception.InvalidOperationException;
-import com.bouali.gestiondestock.model.Article;
-import com.bouali.gestiondestock.model.Client;
-import com.bouali.gestiondestock.model.CommandeClient;
-import com.bouali.gestiondestock.model.EtatCommande;
-import com.bouali.gestiondestock.model.LigneCommandeClient;
-import com.bouali.gestiondestock.model.SourceMvtStk;
-import com.bouali.gestiondestock.model.TypeMvtStk;
-import com.bouali.gestiondestock.repository.ArticleRepository;
-import com.bouali.gestiondestock.repository.ClientRepository;
-import com.bouali.gestiondestock.repository.CommandeClientRepository;
-import com.bouali.gestiondestock.repository.LigneCommandeClientRepository;
-import com.bouali.gestiondestock.services.CommandeClientService;
-import com.bouali.gestiondestock.services.MvtStkService;
-import com.bouali.gestiondestock.validator.ArticleValidator;
-import com.bouali.gestiondestock.validator.CommandeClientValidator;
+import com.abdoulaye.gestionstock.dto.*;
+import com.abdoulaye.gestionstock.exception.EntityNotFoundException;
+import com.abdoulaye.gestionstock.exception.ErrorCodes;
+import com.abdoulaye.gestionstock.exception.InvalidEntityException;
+import com.abdoulaye.gestionstock.exception.InvalidOperationException;
+import com.abdoulaye.gestionstock.model.*;
+import com.abdoulaye.gestionstock.repository.ArticleRepository;
+import com.abdoulaye.gestionstock.repository.ClientRepository;
+import com.abdoulaye.gestionstock.repository.CommandeClientRepository;
+import com.abdoulaye.gestionstock.repository.LigneCommandeClientRepository;
+import com.abdoulaye.gestionstock.services.CommandeClientService;
+import com.abdoulaye.gestionstock.services.MouvementStockService;
+import com.abdoulaye.gestionstock.validator.ArticleValidator;
+import com.abdoulaye.gestionstock.validator.CommandeClientValidator;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class CommandeClientServiceImpl implements CommandeClientService {
 
-  private CommandeClientRepository commandeClientRepository;
-  private LigneCommandeClientRepository ligneCommandeClientRepository;
-  private ClientRepository clientRepository;
-  private ArticleRepository articleRepository;
-  private MvtStkService mvtStkService;
+  private final CommandeClientRepository commandeClientRepository;
+  private final LigneCommandeClientRepository ligneCommandeClientRepository;
+  private final ClientRepository clientRepository;
+  private final ArticleRepository articleRepository;
+  private final MouvementStockService mvtStkService;
 
-  @Autowired
-  public CommandeClientServiceImpl(CommandeClientRepository commandeClientRepository,
-      ClientRepository clientRepository, ArticleRepository articleRepository, LigneCommandeClientRepository ligneCommandeClientRepository,
-      MvtStkService mvtStkService) {
-    this.commandeClientRepository = commandeClientRepository;
-    this.ligneCommandeClientRepository = ligneCommandeClientRepository;
-    this.clientRepository = clientRepository;
-    this.articleRepository = articleRepository;
-    this.mvtStkService = mvtStkService;
-  }
 
   @Override
   public CommandeClientDto save(CommandeClientDto dto) {
@@ -72,7 +54,7 @@ public class CommandeClientServiceImpl implements CommandeClientService {
 
     Optional<Client> client = clientRepository.findById(dto.getClient().getId());
     if (client.isEmpty()) {
-      log.warn("Client with ID {} was not found in the DB", dto.getClient().getId());
+      log.warn("Client avec ID {}  n'est pas trouvé dans la DB", dto.getClient().getId());
       throw new EntityNotFoundException("Aucun client avec l'ID" + dto.getClient().getId() + " n'a ete trouve dans la BDD",
           ErrorCodes.CLIENT_NOT_FOUND);
     }
@@ -318,11 +300,11 @@ public class CommandeClientServiceImpl implements CommandeClientService {
   }
 
   private void effectuerSortie(LigneCommandeClient lig) {
-    MvtStkDto mvtStkDto = MvtStkDto.builder()
+    MouvementStockDto mvtStkDto = MouvementStockDto.builder()
         .article(ArticleDto.fromEntity(lig.getArticle()))
         .dateMvt(Instant.now())
-        .typeMvt(TypeMvtStk.SORTIE)
-        .sourceMvt(SourceMvtStk.COMMANDE_CLIENT)
+        .typeMvt(TypeMouvementStock.SORTIE)
+        .sourceMvt(SourceMouvementStock.COMMANDE_CLIENT)
         .quantite(lig.getQuantite())
         .idEntreprise(lig.getIdEntreprise())
         .build();

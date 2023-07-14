@@ -3,7 +3,7 @@ package com.abdoulaye.gestionstock.dto;
 
 
 
-import com.abdoulaye.gestionstock.models.Article;
+import com.abdoulaye.gestionstock.model.Article;
 import lombok.Builder;
 import lombok.Data;
 
@@ -36,7 +36,7 @@ public class ArticleDto {
                 .prixUnitaire(article.getPrixUnitaire())
                 .dateFab(article.getDateFab())
                 .dateExp(article.getDateExp())
-                .categorie(CategorieDto.fromEntity(article.getCategorie()))
+                .categorie(CategorieDto.fromEntity(article.getCategorieId()))
                 .build();
     }
 
@@ -53,7 +53,7 @@ public class ArticleDto {
         article.setImage(articleDto.getImage());
         article.setDateFab(articleDto.getDateFab());
         article.setDateExp(articleDto.getDateExp());
-        article.setCategorie(CategorieDto.toEntity(articleDto.getCategorie()));
+        article.setCategorieId(CategorieDto.toEntity(articleDto.getCategorie()));
         return article;
     }
 }

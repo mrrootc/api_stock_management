@@ -1,2 +1,17 @@
-package com.abdoulaye.gestionstock.dto;public class ChangerMotDePasseUtilisateurDto {
+package com.abdoulaye.gestionstock.dto;
+
+
+import lombok.Builder;
+import lombok.Data;
+
+@Data
+@Builder
+public class ChangerMotDePasseUtilisateurDto {
+
+    private Integer id;
+
+    private String motDePasse;
+
+    private String confirmMotDePasse;
+
 }

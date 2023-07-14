@@ -1,56 +1,46 @@
-package com.bouali.gestiondestock.services.impl;
+package com.abdoulaye.gestionstock.services.impl;
 
 
-import com.bouali.gestiondestock.dto.ArticleDto;
-import com.bouali.gestiondestock.dto.LigneVenteDto;
-import com.bouali.gestiondestock.dto.MvtStkDto;
-import com.bouali.gestiondestock.dto.VentesDto;
-import com.bouali.gestiondestock.exception.EntityNotFoundException;
-import com.bouali.gestiondestock.exception.ErrorCodes;
-import com.bouali.gestiondestock.exception.InvalidEntityException;
-import com.bouali.gestiondestock.exception.InvalidOperationException;
-import com.bouali.gestiondestock.model.Article;
-import com.bouali.gestiondestock.model.LigneVente;
-import com.bouali.gestiondestock.model.SourceMvtStk;
-import com.bouali.gestiondestock.model.TypeMvtStk;
-import com.bouali.gestiondestock.model.Ventes;
-import com.bouali.gestiondestock.repository.ArticleRepository;
-import com.bouali.gestiondestock.repository.LigneVenteRepository;
-import com.bouali.gestiondestock.repository.VentesRepository;
-import com.bouali.gestiondestock.services.MvtStkService;
-import com.bouali.gestiondestock.services.VentesService;
-import com.bouali.gestiondestock.validator.VentesValidator;
+import com.abdoulaye.gestionstock.dto.ArticleDto;
+import com.abdoulaye.gestionstock.dto.LigneVenteDto;
+import com.abdoulaye.gestionstock.dto.MouvementStockDto;
+import com.abdoulaye.gestionstock.dto.VenteDto;
+import com.abdoulaye.gestionstock.exception.EntityNotFoundException;
+import com.abdoulaye.gestionstock.exception.ErrorCodes;
+import com.abdoulaye.gestionstock.exception.InvalidEntityException;
+import com.abdoulaye.gestionstock.exception.InvalidOperationException;
+import com.abdoulaye.gestionstock.model.*;
+import com.abdoulaye.gestionstock.repository.ArticleRepository;
+import com.abdoulaye.gestionstock.repository.LigneVenteRepository;
+import com.abdoulaye.gestionstock.repository.VentesRepository;
+import com.abdoulaye.gestionstock.services.MouvementStockService;
+import com.abdoulaye.gestionstock.services.VentesService;
+import com.abdoulaye.gestionstock.validator.VenteValidator;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class VentesServiceImpl implements VentesService {
 
-  private ArticleRepository articleRepository;
-  private VentesRepository ventesRepository;
-  private LigneVenteRepository ligneVenteRepository;
-  private MvtStkService mvtStkService;
+  private final ArticleRepository articleRepository;
+  private final VentesRepository ventesRepository;
+  private final LigneVenteRepository ligneVenteRepository;
+  private  MouvementStockService mvtStkService;
 
-  @Autowired
-  public VentesServiceImpl(ArticleRepository articleRepository, VentesRepository ventesRepository,
-      LigneVenteRepository ligneVenteRepository, MvtStkService mvtStkService) {
-    this.articleRepository = articleRepository;
-    this.ventesRepository = ventesRepository;
-    this.ligneVenteRepository = ligneVenteRepository;
-    this.mvtStkService = mvtStkService;
-  }
 
   @Override
-  public VentesDto save(VentesDto dto) {
-    List<String> errors = VentesValidator.validate(dto);
+  public VenteDto save(VenteDto dto) {
+    List<String> errors = VenteValidator.validate(dto);
     if (!errors.isEmpty()) {
       log.error("Ventes n'est pas valide");
       throw new InvalidEntityException("L'objet vente n'est pas valide", ErrorCodes.VENTE_NOT_VALID, errors);
@@ -66,11 +56,11 @@ public class VentesServiceImpl implements VentesService {
     });
 
     if (!articleErrors.isEmpty()) {
-      log.error("One or more articles were not found in the DB, {}", errors);
+      log.error("un ou plusieurs article n'ont pas été trouvé dans la DB, {}", errors);
       throw new InvalidEntityException("Un ou plusieurs articles n'ont pas ete trouve dans la BDD", ErrorCodes.VENTE_NOT_VALID, errors);
     }
 
-    Ventes savedVentes = ventesRepository.save(VentesDto.toEntity(dto));
+    Vente savedVentes = ventesRepository.save(VenteDto.toEntity(dto));
 
     dto.getLigneVentes().forEach(ligneVenteDto -> {
       LigneVente ligneVente = LigneVenteDto.toEntity(ligneVenteDto);
@@ -79,37 +69,37 @@ public class VentesServiceImpl implements VentesService {
       updateMvtStk(ligneVente);
     });
 
-    return VentesDto.fromEntity(savedVentes);
+    return VenteDto.fromEntity(savedVentes);
   }
 
   @Override
-  public VentesDto findById(Integer id) {
+  public VenteDto findById(Integer id) {
     if (id == null) {
       log.error("Ventes ID is NULL");
       return null;
     }
     return ventesRepository.findById(id)
-        .map(VentesDto::fromEntity)
+        .map(VenteDto::fromEntity)
         .orElseThrow(() -> new EntityNotFoundException("Aucun vente n'a ete trouve dans la BDD", ErrorCodes.VENTE_NOT_FOUND));
   }
 
   @Override
-  public VentesDto findByCode(String code) {
+  public VenteDto findByCode(String code) {
     if (!StringUtils.hasLength(code)) {
       log.error("Vente CODE is NULL");
       return null;
     }
     return ventesRepository.findVentesByCode(code)
-        .map(VentesDto::fromEntity)
+        .map(VenteDto::fromEntity)
         .orElseThrow(() -> new EntityNotFoundException(
             "Aucune vente client n'a ete trouve avec le CODE " + code, ErrorCodes.VENTE_NOT_VALID
         ));
   }
 
   @Override
-  public List<VentesDto> findAll() {
+  public List<VenteDto> findAll() {
     return ventesRepository.findAll().stream()
-        .map(VentesDto::fromEntity)
+        .map(VenteDto::fromEntity)
         .collect(Collectors.toList());
   }
 
@@ -128,14 +118,14 @@ public class VentesServiceImpl implements VentesService {
   }
 
   private void updateMvtStk(LigneVente lig) {
-    MvtStkDto mvtStkDto = MvtStkDto.builder()
+    MouvementStockDto mouvementStockDto = com.abdoulaye.gestionstock.dto.MouvementStockDto.builder()
         .article(ArticleDto.fromEntity(lig.getArticle()))
         .dateMvt(Instant.now())
-        .typeMvt(TypeMvtStk.SORTIE)
-        .sourceMvt(SourceMvtStk.VENTE)
+        .typeMvt(TypeMouvementStock.SORTIE)
+        .sourceMvt(SourceMouvementStock.VENTE)
         .quantite(lig.getQuantite())
         .idEntreprise(lig.getIdEntreprise())
         .build();
-    mvtStkService.sortieStock(mvtStkDto);
+    mvtStkService.sortieStock(mouvementStockDto);
   }
 }

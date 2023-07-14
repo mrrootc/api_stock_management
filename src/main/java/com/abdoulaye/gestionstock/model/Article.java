@@ -1,8 +1,7 @@
-package com.abdoulaye.gestionstock.models;
+package com.abdoulaye.gestionstock.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -36,7 +35,7 @@ public class Article extends AbstratEntity {
 
     @ManyToOne()
     @JoinColumn(name = "idcategorie")
-    private Categorie categorie;
+    private Categorie categorieId;
 
     @OneToMany(mappedBy = "article")
     private List<LigneVente> ligneVentes;
